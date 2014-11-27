@@ -31,7 +31,9 @@ public class JpaDeviceDao implements DeviceDao {
     logger.debug("call #findBySerialNo");
     Query query = this.getEntityManager().createQuery("from Device d where d.serialNo=:serialNo");
     query.setParameter("serialNo", serialNo);
-    return (Device) query.getSingleResult();
+    Device device = (Device) query.getSingleResult();
+    device.getMerchant().getStatus();
+    return device;
   }
 
   @Cacheable("devices")
@@ -44,6 +46,18 @@ public class JpaDeviceDao implements DeviceDao {
     return (Device) query.getSingleResult();
   }
 
+  @Cacheable("department")
+  @Override
+  public Device findByDepartmentId(String departmentId) {
+    logger.debug("call #findByDepartmentId");
+    Query query = this.getEntityManager().createQuery(
+            "from Device d where d.departmentId=:departmentId");
+    query.setParameter("departmentId", departmentId);
+    
+    return (Device) query.getSingleResult();
+  }
+
+  
   @CachePut(value="devices", key="#entity.serialNo")
   @Override
   public Device update(Device entity) {

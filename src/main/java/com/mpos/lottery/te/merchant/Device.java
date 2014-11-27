@@ -2,7 +2,10 @@ package com.mpos.lottery.te.merchant;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -31,6 +34,10 @@ public class Device implements java.io.Serializable {
 
   @Column(name = "LOGIC_STATUS")
   private int status;
+
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @JoinColumn(name = "MERCHANT_ID", nullable = false)
+  private Merchant merchant;
 
   public long getId() {
     return id;
@@ -78,6 +85,14 @@ public class Device implements java.io.Serializable {
 
   public void setStatus(int status) {
     this.status = status;
+  }
+
+  public Merchant getMerchant() {
+    return merchant;
+  }
+
+  public void setMerchant(Merchant merchant) {
+    this.merchant = merchant;
   }
 
 }

@@ -94,8 +94,9 @@
 	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
 		<property name="connectionFactory" ref="jedisConnectionFactory" />
 		<!-- One important thing to mention is that you should use stringSerializers 
-			for keys, otherwise you will have problems from other clients, because standard 
-			serialization adds class information. -->
+			for keys, otherwise you will have problems from other clients, because default 
+			serialization(JdkSerializationRedisSerializer) adds class information(all 
+			cached class must implements java.io.Serializable. -->
 		<property name="keySerializer" ref="stringRedisSerializer" />
 		<property name="hashKeySerializer" ref="stringRedisSerializer" />
 	</bean>
@@ -103,6 +104,7 @@
 	<!-- declare Redis Cache Manager -->
 	<bean id="cacheManager" class="org.springframework.data.redis.cache.RedisCacheManager">
 		<constructor-arg ref="redisTemplate" />
+		<property name="usePrefix" value="true" />
 	</bean>
 </beans>
 

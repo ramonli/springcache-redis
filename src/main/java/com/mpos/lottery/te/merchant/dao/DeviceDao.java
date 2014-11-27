@@ -9,6 +9,8 @@ public interface DeviceDao {
   Device findBySerialNo(String serialNo);
 
   Device findByHardwareId(String hardwareId);
+  
+  Device findByDepartmentId(String departmentId);
 
   Device update(Device entity);
 
